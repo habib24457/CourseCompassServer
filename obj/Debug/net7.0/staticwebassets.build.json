@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "fEMkX2HbbaDX84ho8BGF2qQCr1kSOEM3vze5PC6kBBA=",
+  "Source": "CourseCompassServer",
+  "BasePath": "_content/CourseCompassServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
