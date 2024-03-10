@@ -12,7 +12,7 @@ namespace CourseCompass.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<Course> CreateCourse(Course course)
+        public async Task<Course> CreateCourseAsync(Course course)
         {
             await dbContext.Courses.AddAsync(course);
             await dbContext.SaveChangesAsync();

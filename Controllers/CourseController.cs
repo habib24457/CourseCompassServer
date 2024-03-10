@@ -26,11 +26,11 @@ namespace CourseCompass.Controllers
             var courseDomainModel = await _courseRepository.GetAllCourse();
 
             //map domain to dto
-            var courseDtoModel = new List<CourseDto>();
+            var courseDtoModel = new List<GetAllCourseCourseDto>();
             foreach (var course in courseDomainModel)
             {
 #pragma warning disable CS8601 // Possible null reference assignment.
-                courseDtoModel.Add(new CourseDto()
+                courseDtoModel.Add(new GetAllCourseCourseDto()
                 {
                     CourseId = course.CourseId,
                     CourseName = course.CourseName,
@@ -43,17 +43,19 @@ namespace CourseCompass.Controllers
                     ProfessorName = course.ProfessorName,
                     LectureTime = course.LectureTime,
                     LecturePlace = course.LecturePlace,
-                    Insights = course.Insights?.Select(insight => new Insight
+                    Insights = course.Insights?.Select(insight => new InsightForCourseDto
                     {
                         InsightId = insight.InsightId,
                         StudentInsight = insight.StudentInsight,
                         StudentUserId = insight.StudentUserId,
                         CourseId = insight.CourseId
                     }).ToList(),
-                    Students = course.Students?.Select(student => new Student
+                    Students = course.Students?.Select(student => new StudentForCourseDto
                     {
                         StudentUserId = student.StudentUserId,
-                        StudentId = student.StudentId
+                        StudentId = student.StudentId,
+                        StudentName = student.StudentName,
+                        Department = student.Department,
                     }).ToList()
                 });
 #pragma warning restore CS8601 // Possible null reference assignment.
@@ -62,6 +64,45 @@ namespace CourseCompass.Controllers
 
             return Ok(courseDtoModel);
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCourse([FromBody] AddCourseDto addCourseDto)
+        {
+            /*From Dto to domain*/
+            var courseDomainModel = new Course
+            {
+                CourseName = addCourseDto.CourseName,
+                Attempt = addCourseDto.Attempt,
+                IsWinterSemester = addCourseDto.IsWinterSemester,
+                IsCompleted = addCourseDto.IsCompleted,
+                Cgpa = addCourseDto.Cgpa,
+                CourseCode = addCourseDto.CourseCode,
+                IsAttempted = addCourseDto.IsAttempted,
+                ProfessorName = addCourseDto.ProfessorName,
+                LecturePlace = addCourseDto.LectureTime,
+                LectureTime = addCourseDto.LectureTime
+            };
+
+            courseDomainModel = await _courseRepository.CreateCourseAsync(courseDomainModel);
+
+            /*Map: Domain back to dto*/
+            var courseDto = new CourseDto
+            {
+                CourseId = courseDomainModel.CourseId,
+                CourseName = addCourseDto.CourseName,
+                Attempt = addCourseDto.Attempt,
+                IsWinterSemester = addCourseDto.IsWinterSemester,
+                IsCompleted = addCourseDto.IsCompleted,
+                Cgpa = addCourseDto.Cgpa,
+                CourseCode = addCourseDto.CourseCode,
+                IsAttempted = addCourseDto.IsAttempted,
+                ProfessorName = addCourseDto.ProfessorName,
+                LecturePlace = addCourseDto.LectureTime,
+                LectureTime = addCourseDto.LectureTime
+            };
+
+            return CreatedAtAction("CreateCourse", new { id = courseDto.CourseId }, courseDto);
         }
 
     }

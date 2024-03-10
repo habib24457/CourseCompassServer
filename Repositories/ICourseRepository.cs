@@ -6,6 +6,6 @@ namespace CourseCompass.Repositories
     {
         Task<List<Course>> GetAllCourse();
         Task<Course> GetOneCourseById(Guid id);
-        Task<Course> CreateCourse(Course course);
+        Task<Course> CreateCourseAsync(Course course);
     }
 }
