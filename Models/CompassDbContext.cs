@@ -30,13 +30,13 @@ namespace CourseCompass.Models
                 entity.HasMany(c => c.Students)
                     .WithOne(s => s.Course)
                     .HasForeignKey(s => s.CourseId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
                 //one course has many insights. Course has One to Many relation with Insight model 
                 // Configure 1:N relationship between Course and Insight
                 entity.HasMany(c => c.Insights)
                     .WithOne(i => i.Course)
                     .HasForeignKey(i => i.CourseId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Student>(entity =>
@@ -45,7 +45,7 @@ namespace CourseCompass.Models
                 entity.HasOne(s => s.Insight)
                 .WithOne(i => i.Student)
                 .HasForeignKey<Insight>(i => i.StudentUserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
 
@@ -55,7 +55,7 @@ namespace CourseCompass.Models
                 entity.HasOne(i => i.Student)
                  .WithOne(s => s.Insight)
                 .HasForeignKey<Insight>(i => i.StudentUserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
             });
         }
     }

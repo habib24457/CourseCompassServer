@@ -13,7 +13,8 @@ namespace CourseCompass.Repositories
         }
         public async Task<List<Student>> GetAllStudent()
         {
-            return await dbContext.Student.Include("Insights").Include("Courses").ToListAsync();
+            // .include("relationshipDomain") this comes from the domain model of student
+            return await dbContext.Student.Include("Insight").Include("Course").ToListAsync();
         }
 
         public async Task<Student> GetOneStudentById(Guid id)

@@ -29,7 +29,18 @@ namespace CourseCompass.Controllers
         public async Task<IActionResult> GetAllStudent()
         {
             var studentDomain = await _studentRepository.GetAllStudent();
-            return Ok(studentDomain);
+            var studentDtoModel = new List<StudentDto>();
+            foreach (var student in studentDomain)
+            {
+                studentDtoModel.Add(new StudentDto
+                {
+                    StudentUserId = student.StudentUserId,
+                    StudentId = student.StudentId,
+                    StudentName = student.StudentName,
+                    Department = student.Department,
+                });
+            }
+            return Ok(studentDtoModel);
         }
 
         [HttpGet]
@@ -65,12 +76,6 @@ namespace CourseCompass.Controllers
                 Department = studentDomainModel.Department,
                 Password = studentDomainModel.Password
             };
-
-            /*var studentDomainModel = _mapper.Map<Student>(addStudentDto);
-            studentDomainModel = await _studentRepository.CreateStudent(studentDomainModel);*/
-
-            //map: domain to dto
-            /* var studentDtoModel = _mapper.Map<StudentDto>(studentDomainModel);*/
 
             return CreatedAtAction("CreateStudent", new { id = studentDtoModel.StudentUserId }, studentDtoModel);
         }
