@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "JySEp1ZhcLD9PlxxIasKsgpjqI8i7PjMnhmy7lB1KCh02kX0KRApgK5LR+vqezYQs5ngMll7qDAcwlTa8SK44A==",
+  "dgSpecHash": "cIPMM+flJ3UYtEIbwIUo7ao2mVyp5JB2/ohoszKOlY7Wdn0nZwHFTxU1V+H7xBtT3iY8hCWy6qiEVnPoDdDDag==",
   "success": true,
   "projectFilePath": "/Users/habiburrahman/Web-project-24/GraduationCompass-Backend/CourseCompassServer/CourseCompassServer.csproj",
   "expectedPackageFiles": [
+    "/Users/habiburrahman/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
     "/Users/habiburrahman/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/habiburrahman/.nuget/packages/microsoft.aspnetcore.openapi/7.0.13/microsoft.aspnetcore.openapi.7.0.13.nupkg.sha512",
     "/Users/habiburrahman/.nuget/packages/microsoft.data.sqlite.core/7.0.13/microsoft.data.sqlite.core.7.0.13.nupkg.sha512",

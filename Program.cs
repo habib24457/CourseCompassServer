@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using CourseCompass.Models;
+using CourseCompass.Repositories;
+using CourseCompass.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CompassDbContext>
 (options =>
 options.UseSqlite(builder.Configuration.GetConnectionString("localDBConnection")));
+
+builder.Services.AddScoped<IStudentRepository, SQLStudentRepository>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
