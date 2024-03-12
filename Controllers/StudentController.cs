@@ -32,13 +32,18 @@ namespace CourseCompass.Controllers
             var studentDtoModel = new List<StudentDto>();
             foreach (var student in studentDomain)
             {
+#pragma warning disable CS8601 // Possible null reference assignment.
+
                 studentDtoModel.Add(new StudentDto
                 {
                     StudentUserId = student.StudentUserId,
                     StudentId = student.StudentId,
                     StudentName = student.StudentName,
                     Department = student.Department,
+                    CourseId = student.CourseId
                 });
+#pragma warning restore CS8601 // Possible null reference assignment.
+
             }
             return Ok(studentDtoModel);
         }
@@ -55,16 +60,18 @@ namespace CourseCompass.Controllers
             return Ok(studentDomain);
         }
 
-        [HttpPost]
+        [HttpPost("CreateStudent")]
         public async Task<IActionResult> CreateStudent([FromBody] AddStudentsDto addStudentDto)
         {
+            Guid defaultCourseId = Guid.Parse("d56e55eb-d02a-447b-8325-0c98d2b9d49c");
             //map: from dto to domain
             var studentDomainModel = new Student
             {
                 StudentId = addStudentDto.StudentId,
                 StudentName = addStudentDto.StudentName,
                 Department = addStudentDto.Department,
-                Password = addStudentDto.Password
+                Password = addStudentDto.Password,
+                CourseId = defaultCourseId
             };
             studentDomainModel = await _studentRepository.CreateStudent(studentDomainModel);
 
@@ -79,6 +86,22 @@ namespace CourseCompass.Controllers
 
             return CreatedAtAction("CreateStudent", new { id = studentDtoModel.StudentUserId }, studentDtoModel);
         }
+
+        [HttpPost("AddCourseToStudent")]
+        public async Task<IActionResult> AddCourseToStudent([FromBody] AddCourseToStudentDto addCourseToStudentDto)
+        {
+            Guid ConvertedCourseId = addCourseToStudentDto.CourseId;
+            //Find the student from DB
+
+            //map from dto to domain
+            var studentDomain = new Student
+            {
+
+            };
+
+            return Ok();
+        }
+
 
 
     }

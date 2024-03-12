@@ -47,7 +47,6 @@ namespace CourseCompass.Controllers
                     {
                         InsightId = insight.InsightId,
                         StudentInsight = insight.StudentInsight,
-                        StudentUserId = insight.StudentUserId,
                         CourseId = insight.CourseId
                     }).ToList(),
                     Students = course.Students?.Select(student => new StudentForCourseDto
@@ -66,7 +65,7 @@ namespace CourseCompass.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("CreateCourse")]
         public async Task<IActionResult> CreateCourse([FromBody] AddCourseDto addCourseDto)
         {
             /*From Dto to domain*/
@@ -104,6 +103,7 @@ namespace CourseCompass.Controllers
 
             return CreatedAtAction("CreateCourse", new { id = courseDto.CourseId }, courseDto);
         }
+
 
     }
 }

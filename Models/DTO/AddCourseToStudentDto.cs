@@ -3,12 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourseCompass.Models.Domain
 {
-    public class InsightDto
+    public class AddCourseToStudentDto
     {
-        public Guid InsightId { get; set; }
-        public string StudentInsight { get; set; }
-        public Course Course { get; set; }
+        public int StudentId { get; set; }
+        public string StudentName { get; set; }
         public Guid CourseId { get; set; }
-
     }
 }

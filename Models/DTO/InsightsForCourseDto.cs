@@ -7,7 +7,6 @@ namespace CourseCompass.Models.Domain
     {
         public Guid InsightId { get; set; }
         public string StudentInsight { get; set; }
-        public Guid StudentUserId { get; set; } //Foreign key
         public Guid CourseId { get; set; }
     }
 }

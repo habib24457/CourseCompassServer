@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CourseCompassServer.Migrations
 {
     /// <inheritdoc />
-    public partial class reupdateMigration : Migration
+    public partial class firstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,35 +33,11 @@ namespace CourseCompassServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Student",
-                columns: table => new
-                {
-                    StudentUserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    StudentId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StudentName = table.Column<string>(type: "TEXT", nullable: false),
-                    Department = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false),
-                    InsightId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CourseId = table.Column<Guid>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Student", x => x.StudentUserId);
-                    table.ForeignKey(
-                        name: "FK_Student_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Insights",
                 columns: table => new
                 {
                     InsightId = table.Column<Guid>(type: "TEXT", nullable: false),
                     StudentInsight = table.Column<string>(type: "TEXT", nullable: false),
-                    StudentUserId = table.Column<Guid>(type: "TEXT", nullable: false),
                     CourseId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -72,25 +48,35 @@ namespace CourseCompassServer.Migrations
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Student",
+                columns: table => new
+                {
+                    StudentUserId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    StudentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    StudentName = table.Column<string>(type: "TEXT", nullable: false),
+                    Department = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    CourseId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Student", x => x.StudentUserId);
                     table.ForeignKey(
-                        name: "FK_Insights_Student_StudentUserId",
-                        column: x => x.StudentUserId,
-                        principalTable: "Student",
-                        principalColumn: "StudentUserId",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Student_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Insights_CourseId",
                 table: "Insights",
                 column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Insights_StudentUserId",
-                table: "Insights",
-                column: "StudentUserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Student_CourseId",

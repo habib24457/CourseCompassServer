@@ -22,41 +22,53 @@ namespace CourseCompass.Models
         */
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Course>(entity =>
-            {
-                entity.HasKey(c => c.CourseId);                //Primary Key 
-                // Configure 1:N relationship between Course and Student
-                //one course has many students. Course has One to Many relation with student model
-                entity.HasMany(c => c.Students)
-                    .WithOne(s => s.Course)
-                    .HasForeignKey(s => s.CourseId)
-                    .OnDelete(DeleteBehavior.NoAction);
-                //one course has many insights. Course has One to Many relation with Insight model 
-                // Configure 1:N relationship between Course and Insight
-                entity.HasMany(c => c.Insights)
-                    .WithOne(i => i.Course)
-                    .HasForeignKey(i => i.CourseId)
-                    .OnDelete(DeleteBehavior.NoAction);
-            });
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Course)
+                .WithMany(c => c.Students)
+                .HasForeignKey(s => s.CourseId)
+                .HasPrincipalKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Student>(entity =>
-            {
-                entity.HasKey(s => s.StudentUserId); //Primary Key
-                entity.HasOne(s => s.Insight)
-                .WithOne(i => i.Student)
-                .HasForeignKey<Insight>(i => i.StudentUserId)
-                .OnDelete(DeleteBehavior.NoAction);
-            });
+            modelBuilder.Entity<Insight>()
+                .HasOne(i => i.Course)
+                .WithMany(c => c.Insights)
+                .HasForeignKey(i => i.CourseId)
+                .HasPrincipalKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
 
+            // modelBuilder.Entity<Course>(entity =>
+            // {
+            //     entity.HasKey(c => c.CourseId);                //Primary Key 
+            //     // Configure 1:N relationship between Course and Student
+            //     //one course has many students. Course has One to Many relation with student model
+            //     entity.HasMany(c => c.Students)
+            //         .WithOne(s => s.Course)
+            //         .HasForeignKey(s => s.CourseId)
+            //         .OnDelete(DeleteBehavior.NoAction);
+            //     //one course has many insights. Course has One to Many relation with Insight model 
+            //     // Configure 1:N relationship between Course and Insight
+            //     entity.HasMany(c => c.Insights)
+            //         .WithOne(i => i.Course)
+            //         .HasForeignKey(i => i.CourseId)
+            //         .OnDelete(DeleteBehavior.NoAction);
+            // });
 
-            modelBuilder.Entity<Insight>(entity =>
-            {
-                entity.HasKey(i => i.InsightId); //Primary Key
-                entity.HasOne(i => i.Student)
-                 .WithOne(s => s.Insight)
-                .HasForeignKey<Insight>(i => i.StudentUserId)
-                .OnDelete(DeleteBehavior.NoAction);
-            });
+            // modelBuilder.Entity<Student>(entity =>
+            // {
+            //     entity.HasOne(s => s.Course)
+            //             .WithMany(c => c.Students)
+            //             .HasForeignKey(c => c.CourseId)
+            //             .OnDelete(DeleteBehavior.NoAction);
+            // });
+
+            // modelBuilder.Entity<Insight>(entity =>
+            //     {
+            //         entity.HasKey(i => i.InsightId); //Primary Key
+            //         entity.HasOne(i => i.Course)
+            //          .WithMany(c => c.Insights)
+            //         .HasForeignKey(i => i.CourseId)
+            //         .OnDelete(DeleteBehavior.NoAction);
+            //     });
         }
     }
 }

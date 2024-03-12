@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseCompassServer.Migrations
 {
     [DbContext(typeof(CompassDbContext))]
-    [Migration("20240310125141_updatedDelMethod")]
-    partial class updatedDelMethod
+    [Migration("20240311115023_deletebehavior")]
+    partial class deletebehavior
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,15 +79,9 @@ namespace CourseCompassServer.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("StudentUserId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("InsightId");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("StudentUserId")
-                        .IsUnique();
 
                     b.ToTable("Insights");
                 });
@@ -103,9 +97,6 @@ namespace CourseCompassServer.Migrations
 
                     b.Property<string>("Department")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("InsightId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
@@ -131,18 +122,10 @@ namespace CourseCompassServer.Migrations
                     b.HasOne("CourseCompass.Models.Domain.Course", "Course")
                         .WithMany("Insights")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("CourseCompass.Models.Domain.Student", "Student")
-                        .WithOne("Insight")
-                        .HasForeignKey("CourseCompass.Models.Domain.Insight", "StudentUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("CourseCompass.Models.Domain.Student", b =>
@@ -150,7 +133,7 @@ namespace CourseCompassServer.Migrations
                     b.HasOne("CourseCompass.Models.Domain.Course", "Course")
                         .WithMany("Students")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -161,12 +144,6 @@ namespace CourseCompassServer.Migrations
                     b.Navigation("Insights");
 
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("CourseCompass.Models.Domain.Student", b =>
-                {
-                    b.Navigation("Insight")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

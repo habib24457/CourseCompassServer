@@ -14,12 +14,14 @@ namespace CourseCompass.Repositories
         public async Task<List<Student>> GetAllStudent()
         {
             // .include("relationshipDomain") this comes from the domain model of student
-            return await dbContext.Student.Include("Insight").Include("Course").ToListAsync();
+            return await dbContext.Student.ToListAsync();
         }
 
         public async Task<Student> GetOneStudentById(Guid id)
         {
+#pragma warning disable CS8603 // Possible null reference return.
             return await dbContext.Student.FirstOrDefaultAsync(x => x.StudentUserId == id);
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public async Task<Student> CreateStudent(Student student)
@@ -28,5 +30,6 @@ namespace CourseCompass.Repositories
             await dbContext.SaveChangesAsync();
             return student;
         }
+
     }
 }
